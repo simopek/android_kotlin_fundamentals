@@ -9,10 +9,13 @@ import android.widget.TextView
 class MainActivity : AppCompatActivity() {
 
     var currentDiceNumber = 1
+    lateinit var diceImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        diceImageView = findViewById(R.id.dice_image)
 
         val rollButton: Button = findViewById(R.id.roll_button)
         rollButton.setOnClickListener { rollDice() }
@@ -22,8 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         updateDiceImage(currentDiceNumber)
     }
-
-    private fun getRollResultImageView(): ImageView = findViewById(R.id.dice_image)
 
     private fun countUp() {
 
@@ -49,6 +50,6 @@ class MainActivity : AppCompatActivity() {
             else -> R.drawable.dice_6
         }
 
-        getRollResultImageView().setImageResource(diceImage)
+        diceImageView.setImageResource(diceImage)
     }
 }
