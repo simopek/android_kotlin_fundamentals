@@ -3,9 +3,13 @@ package com.simopek.diceroller
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
+
+    var currentDiceNumber = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -15,23 +19,36 @@ class MainActivity : AppCompatActivity() {
 
         val countUpButton: Button = findViewById(R.id.count_up_button)
         countUpButton.setOnClickListener { countUp() }
+
+        updateDiceImage(currentDiceNumber)
     }
 
-    private fun getRollResultTextView(): TextView = findViewById(R.id.roll_result_text)
+    private fun getRollResultImageView(): ImageView = findViewById(R.id.dice_image)
 
     private fun countUp() {
 
-        val rollResult = getRollResultTextView().text
-
-        val rollResultAsInt = rollResult.toString().toIntOrNull() ?: return
-
-        getRollResultTextView().text = (if (rollResultAsInt >= 6) 6 else rollResultAsInt + 1).toString()
+        currentDiceNumber = if (currentDiceNumber >= 6) 6 else currentDiceNumber + 1
+        updateDiceImage(currentDiceNumber)
     }
 
     private fun rollDice() {
 
-        val randomNumber = (1..6).random()
+        val diceNumber = (1..6).random()
+        currentDiceNumber  = diceNumber
+        updateDiceImage(diceNumber)
+    }
 
-        getRollResultTextView().text = randomNumber.toString()
+    private fun updateDiceImage(diceNumber: Int) {
+
+        val diceImage = when (diceNumber) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+
+        getRollResultImageView().setImageResource(diceImage)
     }
 }
