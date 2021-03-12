@@ -9,12 +9,16 @@
     android:layout_gravity="center_vertical"
     tools:context=".MainActivity" >
 
+    <!-- the namespace "tools" is used to add attributes that are only used by IDE, tools
+    and that are removed when the app is built
+    -->
     <ImageView
         android:id="@+id/dice_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/empty_dice"/>
+        android:src="@drawable/empty_dice"
+        tools:src="@drawable/dice_4"/>
 
     <Button
         android:id="@+id/roll_button"

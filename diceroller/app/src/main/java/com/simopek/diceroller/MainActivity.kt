@@ -8,7 +8,7 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
-    var currentDiceNumber = 1
+    var currentDiceNumber = -1
     lateinit var diceImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +23,15 @@ class MainActivity : AppCompatActivity() {
         val countUpButton: Button = findViewById(R.id.count_up_button)
         countUpButton.setOnClickListener { countUp() }
 
-        updateDiceImage(currentDiceNumber)
     }
 
     private fun countUp() {
 
-        currentDiceNumber = if (currentDiceNumber >= 6) 6 else currentDiceNumber + 1
+        currentDiceNumber = when {
+            currentDiceNumber >= 6 -> 6
+            currentDiceNumber <= 0 -> 1
+            else -> currentDiceNumber + 1
+        }
         updateDiceImage(currentDiceNumber)
     }
 
