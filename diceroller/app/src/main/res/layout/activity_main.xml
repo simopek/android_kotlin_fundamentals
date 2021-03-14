@@ -9,16 +9,32 @@
     android:layout_gravity="center_vertical"
     tools:context=".MainActivity" >
 
-    <!-- the namespace "tools" is used to add attributes that are only used by IDE, tools
-    and that are removed when the app is built
-    -->
-    <ImageView
-        android:id="@+id/dice_image"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/empty_dice"
-        tools:src="@drawable/dice_4"/>
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <!-- the namespace "tools" is used to add attributes that are only used by IDE, tools
+    and that are removed when the app is built
+    -->
+        <ImageView
+            android:id="@+id/dice1_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/empty_dice"
+            tools:src="@drawable/dice_4"/>
+
+        <ImageView
+            android:id="@+id/dice2_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/empty_dice"
+            tools:src="@drawable/dice_4"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/roll_button"

@@ -8,14 +8,17 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
-    var currentDiceNumber = -1
-    lateinit var diceImageView: ImageView
+    private var currentDice1Number = -1
+    private var currentDice2Number = -1
+    lateinit var dice1ImageView: ImageView
+    lateinit var dice2ImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        diceImageView = findViewById(R.id.dice_image)
+        dice1ImageView = findViewById(R.id.dice1_image)
+        dice2ImageView = findViewById(R.id.dice2_image)
 
         val rollButton: Button = findViewById(R.id.roll_button)
         rollButton.setOnClickListener { rollDice() }
@@ -25,24 +28,27 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun incOrNopeDiceNumber(currentDiceNumber: Int) = if (currentDiceNumber >= 6) 6 else if (currentDiceNumber <= 0) 1 else currentDiceNumber + 1
+
     private fun countUp() {
 
-        currentDiceNumber = when {
-            currentDiceNumber >= 6 -> 6
-            currentDiceNumber <= 0 -> 1
-            else -> currentDiceNumber + 1
-        }
-        updateDiceImage(currentDiceNumber)
+        currentDice1Number = incOrNopeDiceNumber(currentDice1Number)
+        updateDiceImage(currentDice1Number, dice1ImageView)
+
+        currentDice2Number = incOrNopeDiceNumber(currentDice2Number)
+        updateDiceImage(currentDice2Number, dice2ImageView)
     }
 
     private fun rollDice() {
 
-        val diceNumber = (1..6).random()
-        currentDiceNumber  = diceNumber
-        updateDiceImage(diceNumber)
+        currentDice1Number = (1..6).random()
+        updateDiceImage(currentDice1Number, dice1ImageView)
+
+        currentDice2Number = (1..6).random()
+        updateDiceImage(currentDice2Number, dice2ImageView)
     }
 
-    private fun updateDiceImage(diceNumber: Int) {
+    private fun updateDiceImage(diceNumber: Int, diceImageView: ImageView) {
 
         val diceImage = when (diceNumber) {
             1 -> R.drawable.dice_1
