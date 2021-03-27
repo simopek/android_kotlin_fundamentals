@@ -4,11 +4,9 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
-
-    private val boxColors = listOf(Color.BLACK, Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW,
-        Color.CYAN)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         view.setBackgroundColor(
             when (view.id) {
                 R.id.box_one_text, R.id.box_two_text,
-                R.id.box_three_text, R.id.box_four_text, R.id.box_five_text -> boxColors.random()
+                R.id.box_three_text, R.id.box_four_text, R.id.box_five_text -> randomColor()
                 // the "else" block when the user clicks on any object that is not a box
                 else -> Color.LTGRAY
             }
@@ -39,4 +37,6 @@ class MainActivity : AppCompatActivity() {
             it.setOnClickListener { it2 -> makeColored(it2) }
         }
     }
+
+    private fun randomColor(): Int = Color.rgb(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
 }
