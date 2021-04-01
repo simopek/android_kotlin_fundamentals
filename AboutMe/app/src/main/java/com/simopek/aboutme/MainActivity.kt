@@ -9,60 +9,73 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import com.simopek.aboutme.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var doneButton: Button
-    private lateinit var nicknameEditText: EditText
-    private lateinit var nicknameViewText: TextView
+    private lateinit var binding: ActivityMainBinding
+    private val myName = MyName("Sim")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        nicknameEditText = findViewById(R.id.nickname_edit)
-        nicknameViewText = findViewById(R.id.nickname_text)
-        doneButton = findViewById(R.id.done_button)
+        binding.myName = this.myName
+        binding.apply {
 
-        doneButton.setOnClickListener {
-            onNewNicknameProvided()
+            doneButton.setOnClickListener {
+                onNewNicknameProvided()
+            }
+
+            nicknameText.setOnClickListener {
+                editNickname()
+            }
         }
 
-        nicknameViewText.setOnClickListener {
-            editNickname()
-        }
     }
 
     private fun onNewNicknameProvided() {
 
-        val nickname = nicknameEditText.text
+        val nickname = binding.nicknameEdit.text
         if (nickname.isNullOrBlank()) {
             Toast.makeText(this, R.string.ask_for_valid_nickname, Toast.LENGTH_SHORT).show()
             return
         }
 
-        nicknameViewText.text = nickname
-        nicknameViewText.visibility = View.VISIBLE
-        nicknameEditText.visibility = View.GONE
-        doneButton.visibility = View.GONE
+        binding.let {
 
-        // we get the reference to the soft input window
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        // we call the method by providing it with the context view that is responsible for soft input window
-        inputMethodManager?.hideSoftInputFromWindow(nicknameEditText.applicationWindowToken, 0)
+            this.myName.nickname = nickname.toString()
+            // since we update the binding's "data" we have to invalidate it
+            // in order to refresh the view
+            it.invalidateAll()
+
+            it.nicknameText.visibility = View.VISIBLE
+            it.nicknameEdit.visibility = View.GONE
+            it.doneButton.visibility = View.GONE
+
+            // we get the reference to the soft input window
+            val inputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            // we call the method by providing it with the context view that is responsible for soft input window
+            inputMethodManager?.hideSoftInputFromWindow(it.nicknameEdit.applicationWindowToken, 0)
+        }
     }
 
     private fun editNickname() {
 
-        nicknameViewText.visibility = View.GONE
-        nicknameEditText.visibility = View.VISIBLE
-        doneButton.visibility = View.VISIBLE
+        binding.apply {
+            nicknameText.visibility = View.GONE
+            nicknameEdit.visibility = View.VISIBLE
+            doneButton.visibility = View.VISIBLE
 
-        nicknameEditText.requestFocus()
+            nicknameEdit.requestFocus()
 
-        // we get the reference to the soft input window
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        // we call the method by providing it with the context view that is responsible for soft input window
-        inputMethodManager?.showSoftInput(nicknameEditText, 0)
+            // we get the reference to the soft input window
+            val inputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            // we call the method by providing it with the context view that is responsible for soft input window
+            inputMethodManager?.showSoftInput(nicknameEdit, 0)
+        }
     }
 }
